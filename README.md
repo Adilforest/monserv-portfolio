@@ -54,21 +54,7 @@ for both Go and Python (**contracts-first**).
 
 ### Receipt lifecycle
 
-```
-[manual | OCR | web-parser]  --receipt.extracted.*-->  [postprocessor]
-        (input channels)                                (normalisation)
-                                                              |
-                                                  receipt.clean.done
-                                                              v
-                              [storage-receipt] <--+--> [analysis-receipt]
-                              (persistence)        |     (embeddings,
-                                                   |      clustering,
-                              [product-registry]   |      analytics)
-                              (NCT enrichment)     |
-                                                   v
-                                          [notification]  -->  [frontend SPA]
-                                          [api-gateway / BFF]
-```
+![Receipt lifecycle — one canonical event per stage](docs/images/receipt-lifecycle.png)
 
 **Async backbone:** NATS JetStream carries the canonical receipt-lifecycle events
 (`receipt.extracted.*`, `receipt.clean.done` / `.fail`, `receipt.analyzable`).
