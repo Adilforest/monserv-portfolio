@@ -203,24 +203,32 @@ private package registries, semantic-versioned shared libraries, merge-request r
 
 ## My contribution
 
-This is a three-person team project. My personal work concentrated on the backend and
-reliability layers:
+MonServ was built by a team of three, and I worked hands-on across the **entire system** —
+from data collection and the backend pipeline through the ML layer to the front-end and the
+product design:
 
-- **`storage-receipt`** — canonical receipt persistence, scope-aware repositories, lean
-  list/detail DTOs with server-side alias joins.
-- **`user-registry`** — profiles, groups and invitations on a transactional outbox +
-  `TransactionManager`, Keycloak Admin sync, integration tests (testcontainers PG + NATS).
-- **Shared `scope` layer** (in `libraries`) — request-context identity propagation across
-  HTTP and NATS.
-- **`input-receipt-manual`** and **`notification`** — manual ingest API and the realtime
-  WebSocket notification service.
-- **Cross-service testing campaign** — testcontainers-based integration tests for the
-  input/processing services and an httptest auth matrix for the gateway; surfaced and fixed
-  broker and identity-propagation bugs along the way.
+- **Backend microservices (Go)** — canonical receipt persistence (`storage-receipt`),
+  identity / groups / invitations on a transactional outbox + `TransactionManager`
+  (`user-registry`), manual ingest (`input-receipt-manual`), the realtime WebSocket
+  notification service (`notification`), the API gateway, and the shared `scope` identity
+  layer used across HTTP and NATS.
+- **Post-processing & NLP** — the product-name normalisation service: language detection and
+  registry-backed (NCT/NTIN) canonicalisation of noisy bilingual (RU/KK) product names.
+- **Machine learning & analytics** — the embedding and clustering pipeline (multilingual-e5
+  via ONNX Runtime, pgvector/HNSW nearest-neighbour search, DBSCAN re-clustering) and the
+  analytics aggregation behind the dashboards.
+- **Data collection** — assembled the real-world receipt dataset from OFD/QR sources used to
+  develop and validate ingestion, parsing and the ML pipeline.
+- **Front-end** — the React SPA for uploading receipts (including in-browser QR scanning) and
+  browsing the price/category analytics.
+- **Design** — the product UI/UX (Figma) behind the SPA.
+- **Reliability & testing** — transactional outbox / at-least-once delivery with per-aggregate
+  ordering, and testcontainers-based integration test suites across services; surfaced and
+  fixed broker and identity-propagation bugs along the way.
 - Co-authored the **LaTeX thesis** and the system documentation.
 
-> Scope claims here are limited to the parts I personally owned; the system-level description
-> above is the shared team project.
+> MonServ is a team project; the points above reflect my hands-on involvement across its
+> subsystems rather than sole authorship of any one of them.
 
 ---
 
